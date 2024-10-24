@@ -1,0 +1,19 @@
+{
+    "name": "fabio/app-salon_php_mvc_js_sass",
+    "description": "Proyecto agendamiento de citas SkinByYulieth - PHP 8, MVC, SQL, SASS, Gulp",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MVC\\": "./",
+            "Controllers\\":"./controllers",
+            "Model\\":"./models"
+        }
+    },
+    "authors": [
+        {
+            "name": "Fabio Escobar",
+            "email": "fabztech@outlook.com"
+        }
+    ],
+    "require": {}
+}
