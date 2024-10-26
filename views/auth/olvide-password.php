@@ -1,4 +1,4 @@
-<h1 class="titulo-pagina">Olvide Password</h1>
+<h1 class="nombre-pagina">Olvide mi Password</h1>
 <p class="descripcion-pagina">Ingresa tu E-mail para restablecer tu Password</p>
 <form class="formulario" method="POST" action="submit">
     <div class="campo">
