@@ -15,3 +15,13 @@
         margin-bottom: calc(v.$separacion / 2);
     }
 }
+
+.confirmarCuenta {
+    justify-content: center;
+    a{
+        margin-top: calc(v.$separacion);
+        color: v.$burntUmber;
+        font-weight: bold;
+        padding: 1rem;
+    }
+}
