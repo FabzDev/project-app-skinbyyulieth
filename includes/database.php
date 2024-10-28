@@ -1,6 +1,6 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', 'faeavf44', 'appsalon');
+$db = mysqli_connect('localhost', 'root', 'faeavf44', 'skin_by_yulieth');
 
 
 if (!$db) {

@@ -1,0 +1,22 @@
+@use '../base/variables' as v;
+@use '../base/mixins' as m;
+
+.alerta{
+    display: block;
+    width: 100%;
+    padding: calc(v.$separacion/4);
+    border: 1px white solid;
+    margin-bottom: 1rem;
+    border-radius: 1rem;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    
+    &.error{
+        background-color: v.$tan;
+    }
+
+    &.exito{
+        background-color: v.$mountainMeadow;
+    }
+}

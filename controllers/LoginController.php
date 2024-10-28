@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Classes\Email;
 use Model\Usuario;
 use MVC\Router;
 
@@ -27,15 +28,67 @@ class LoginController
         echo "Desde Recuperar";
     }
 
-    public static function crear(Router $inst3Router){
+    public static function crear(Router $inst3Router)
+    {
         $usuario = new Usuario;
+        $alertas = [];
+        //Al enviar metodo post
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $usuario->sincronizar($_POST);
+            //Validar campos formulario
+            $alertas = $usuario->validarNuevaCuenta();
+            if (empty($alertas)) {
+                if ($usuario->existeUsuario()) {
+                    $alertas = Usuario::getAlertas();
+                } else {
+                    //Hashear password
+                    $usuario->hashPassword();
+
+                    //Generar token
+                    $usuario->createToken();
+
+                    //Enviar email confirmation
+                    $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
+                    $email->enviarConfirmacion();
+
+                    // Crear usuario en DB
+                    $resultadoSQL = $usuario->guardar();
+                    if ($resultadoSQL) {
+                        header('Location: /mensaje');
+                    }
+                }
+            }
         }
 
-
         $inst3Router->render('auth/crear-cuenta', [
-            'user' => $usuario
+            'user' => $usuario,
+            'alerts' => $alertas
+        ]);
+    }
+
+    public static function mensaje(Router $router)
+    {
+        $router->render('auth/mensaje', []);
+    }
+
+    public static function confirmar(Router $router)
+    {
+        $alertas = [];
+        $token = trim(s($_GET['token']));
+        $user = new Usuario;
+        $user = Usuario::where('token', $token);
+        if (trim($user->token) == $token) {
+            Usuario::setAlerta('exito', 'Tu cuenta ha sido activada');
+            $user->token = null;
+            $user->confirmado = '1';
+            $user->guardar();      
+        } else {
+            Usuario::setAlerta('error', 'Token invalido');
+        }
+
+        $alertas = Usuario::getAlertas();
+        $router->render('auth/confirmar-cuenta', [
+            'alerts' => $alertas
         ]);
     }
 }
