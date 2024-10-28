@@ -74,4 +74,12 @@ class Usuario extends ActiveRecord
     public function createToken(){
         $this->token = uniqid();
     }
+
+    //Validar el Password y si el usuario está verificado
+    public function validarPasswordAndVerificado($password){
+        $result = password_verify($password, $this->password);
+        $result2 = $this->confirmado;
+        return $result & $result2;
+
+    }
 }
