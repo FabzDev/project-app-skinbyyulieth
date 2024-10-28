@@ -8,9 +8,23 @@ use MVC\Router;
 
 class LoginController
 {
-    public static function login(Router $inst1Router)
-    {
-        $inst1Router->render('auth/login', []);
+    public static function login(Router $inst1Router){
+        if($_SERVER['REQUEST_METHOD'] =='POST'){
+            $auth = new Usuario;
+            $alertas=[];
+            $auth->sincronizar($_POST);
+            if(!$auth->email){
+                $alertas['error'][]='Ingresa tu Email para iniciar sesión';
+            }
+            if(!$auth->password){
+                $alertas['error'][]='Ingresa tu Password para iniciar sesión';
+            }
+        }
+
+        $inst1Router->render('auth/login', [
+            'alerts' => $alertas,
+            'auth' => $auth
+        ]);
     }
 
     public static function logout()
@@ -81,7 +95,7 @@ class LoginController
             Usuario::setAlerta('exito', 'Tu cuenta ha sido activada');
             $user->token = null;
             $user->confirmado = '1';
-            $user->guardar();      
+            $user->guardar();
         } else {
             Usuario::setAlerta('error', 'Token invalido');
         }
