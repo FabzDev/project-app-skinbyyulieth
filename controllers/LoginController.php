@@ -54,14 +54,25 @@ class LoginController
         ]);
     }
 
-    public static function logout()
-    {
-        echo "Desde Logout";
+    public static function logout(){
+        $alertas = [];
+        if($_SERVER(['REQUEST_METHOD'] === 'POST')){
+            $auth = new usuario($_POST);
+            $alertas = auth->validarEmail();
+            if(empty($alertas)){
+                $usuario = Usuario::where('email', $auth->email);
+                if($usuario & $usuario->confirmado == true){
+                    debuguear($usuario);
+                } else {
+                    debuguear('Usuario no existe o no confirmado');
+                }
+            }
+        }
     }
 
     public static function olvide(Router $inst2Router)
     {
-        $inst2Router->render('auth/olvide-password', []);
+
     }
 
     public static function recuperar()

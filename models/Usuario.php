@@ -65,6 +65,14 @@ class Usuario extends ActiveRecord
         }
     }
 
+    //Validar email en olvide password
+    public function validarEmail(){
+        if (!$this->email) {
+            self::$alertas['error'][] = 'Se requiere un E-mail para recuperar tu password';
+            return self::alertas;
+        }
+    }
+
     //Hashear Password
     public function hashPassword(){
         $this->password = password_hash($this->password, PASSWORD_BCRYPT);

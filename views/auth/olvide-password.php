@@ -1,5 +1,10 @@
 <h1 class="nombre-pagina">Olvide mi Password</h1>
 <p class="descripcion-pagina">Ingresa tu E-mail para restablecer tu Password</p>
+
+<?php
+    include_once __DIR__ . "/../templates/alertas.php"
+?>
+
 <form class="formulario" method="POST" action="submit">
     <div class="campo">
         <label for="email">E-mail</label>
