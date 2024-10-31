@@ -8,42 +8,43 @@ use MVC\Router;
 
 class LoginController
 {
-    public static function login(Router $inst1Router){
-        if($_SERVER['REQUEST_METHOD'] =='POST'){
+    public static function login(Router $inst1Router)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $auth = new Usuario;
-            $alertas=[];
+            $alertas = [];
             $auth->sincronizar($_POST);
-            if(!$auth->email){
-                $alertas['error'][]='Ingresa tu Email para iniciar sesión';
+            if (!$auth->email) {
+                $alertas['error'][] = 'Ingresa tu Email para iniciar sesión';
             }
-            if(!$auth->password){
-                $alertas['error'][]='Ingresa tu Password para iniciar sesión';
+            if (!$auth->password) {
+                $alertas['error'][] = 'Ingresa tu Password para iniciar sesión';
             }
-            if(empty($alertas)){
+            if (empty($alertas)) {
                 $usuario = Usuario::where('email', $auth->email);
-                if($usuario){
-                    if ($usuario->validarPasswordAndVerificado($auth->password)){
+                if ($usuario) {
+                    if ($usuario->validarPasswordAndVerificado($auth->password)) {
                         //Autenticar el usuario
                         session_start();
-                        $_SESSION['id']= $usuario->id;
-                        $_SESSION['nombreCompleto']= $usuario->nombre . " " . $usuario->apellido;
-                        $_SESSION['email']= $usuario->email;
-                        $_SESSION['login']= true;
+                        $_SESSION['id'] = $usuario->id;
+                        $_SESSION['nombreCompleto'] = $usuario->nombre . " " . $usuario->apellido;
+                        $_SESSION['email'] = $usuario->email;
+                        $_SESSION['login'] = true;
 
                         //Redireccionamiento
-                        if($usuario->admin){
-                            $_SESSION['admin']= true;    
+                        if ($usuario->admin) {
+                            $_SESSION['admin'] = true;
                             header('Location: /admin');
                         } else {
                             header('Location: /cita');
                         }
 
                         debuguear($_SESSION);
-                    }else {
-                        $alertas['error'][]='El password ingresado no es correcto, o tu cuenta no ha sido validada';    
+                    } else {
+                        $alertas['error'][] = 'El password ingresado no es correcto, o tu cuenta no ha sido validada';
                     }
-                }else {
-                    $alertas['error'][]='El correo ingresado no es valido';
+                } else {
+                    $alertas['error'][] = 'El correo ingresado no es valido';
                 }
             }
         }
@@ -54,27 +55,27 @@ class LoginController
         ]);
     }
 
-    public static function logout(){
-        
-    }
+    public static function logout() {}
 
     public static function olvide(Router $inst2Router)
     {
         $alertas = [];
-        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $auth = new usuario($_POST);
             $alertas = $auth->validarEmail();
-            if(empty($alertas)){
+            if (empty($alertas)) {
                 $usuario = Usuario::where('email', $auth->email);
-                if($usuario && $usuario->confirmado == true){
+                if ($usuario && $usuario->confirmado == true) {
+                    Usuario::setAlerta('exito', 'Revisa tu E-mail');
                     $usuario->createToken();
                     $usuario->guardar();
-                    Usuario::setAlerta('exito', 'Revisa tu bandeja de correos');
-                    $alertas = Usuario::getAlertas();
+                    $email = new Email($usuario->nombre, $usuario->email, $usuario->token);
+                    $email->enviarInstrucciones();
                 } else {
                     Usuario::setAlerta('error', 'El correo no existe o no ha sido activado');
-                    $alertas = Usuario::getAlertas();
                 }
+                $alertas = Usuario::getAlertas();
             }
         }
 
@@ -83,9 +84,32 @@ class LoginController
         ]);
     }
 
-    public static function recuperar()
+    public static function recuperar(Router $router)
     {
-        echo "Desde Recuperar";
+        $alertas = [];
+        $error = false;
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $token = s($_GET['token']);
+            $password = $_POST['password'];
+            $usuarioDB = Usuario::where('token', $token);
+            if ($usuarioDB->token == $token) {
+                Usuario::setAlerta('exito', 'Password actualizado');
+                $usuarioDB->password = $password;
+                $usuarioDB->hashPassword();
+                $usuarioDB->guardar();
+            } else {
+                Usuario::setAlerta('error', 'Token invalido');
+            }
+
+            $error = true;
+            $alertas = Usuario::getAlertas();
+            // debuguear($password);
+        }
+
+        $router->render('auth/recuperar', [
+            'alerts' => $alertas,
+            'error' => $error
+        ]);
     }
 
     public static function crear(Router $inst3Router)

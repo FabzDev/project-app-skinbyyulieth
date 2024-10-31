@@ -43,4 +43,33 @@ use PHPMailer\PHPMailer\PHPMailer;
             //Enviar email
             $correo->send();
         }
+
+        public function enviarInstrucciones(){
+            $correo = new PHPMailer();
+            $correo->isSMTP();
+            $correo->Host = 'sandbox.smtp.mailtrap.io';
+            $correo->SMTPAuth = true;
+            $correo->Port = 2525;
+            $correo->Username = '0916c80e86e91c';
+            $correo->Password = 'db47cdee41adcd';
+            
+            $correo->setFrom('notificaciones@skinbyyulieth.com');
+            $correo->addAddress('fabioescobarardila@hotmail.com');
+            $correo->Subject = 'Restablecer Password';
+
+            //Set HTML
+            $correo->isHTML(TRUE);
+            $correo->CharSet = 'UTF-8';
+
+            $contenido = "<html>";
+            $contenido .= "<p>Hola <strong>".$this->nombre."</strong>. Para restablecer tu Password has click en el siguiente enlace:</p>";
+            $contenido .= "<p><a href='http://localhost:3000/recuperar?token=".$this->token."'>Restablecer Password</a><p>";
+            $contenido .= "<p?>Si tu no creaste esta por favor ignora este mensaje</p>";
+            $contenido .= "</html>";
+            
+            $correo->Body = $contenido;
+
+            //Enviar email
+            $correo->send();
+        }
     }
