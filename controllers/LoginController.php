@@ -96,6 +96,7 @@ class LoginController
                 Usuario::setAlerta('exito', 'Password actualizado');
                 $usuarioDB->password = $password;
                 $usuarioDB->hashPassword();
+                $usuarioDB->token = null;
                 $usuarioDB->guardar();
             } else {
                 Usuario::setAlerta('error', 'Token invalido');
