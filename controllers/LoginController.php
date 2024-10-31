@@ -55,24 +55,32 @@ class LoginController
     }
 
     public static function logout(){
-        $alertas = [];
-        if($_SERVER(['REQUEST_METHOD'] === 'POST')){
-            $auth = new usuario($_POST);
-            $alertas = auth->validarEmail();
-            if(empty($alertas)){
-                $usuario = Usuario::where('email', $auth->email);
-                if($usuario & $usuario->confirmado == true){
-                    debuguear($usuario);
-                } else {
-                    debuguear('Usuario no existe o no confirmado');
-                }
-            }
-        }
+        
     }
 
     public static function olvide(Router $inst2Router)
     {
+        $alertas = [];
+        if($_SERVER['REQUEST_METHOD'] === 'POST'){
+            $auth = new usuario($_POST);
+            $alertas = $auth->validarEmail();
+            if(empty($alertas)){
+                $usuario = Usuario::where('email', $auth->email);
+                if($usuario && $usuario->confirmado == true){
+                    $usuario->createToken();
+                    $usuario->guardar();
+                    Usuario::setAlerta('exito', 'Revisa tu bandeja de correos');
+                    $alertas = Usuario::getAlertas();
+                } else {
+                    Usuario::setAlerta('error', 'El correo no existe o no ha sido activado');
+                    $alertas = Usuario::getAlertas();
+                }
+            }
+        }
 
+        $inst2Router->render('auth/olvide-password', [
+            'alerts' => $alertas
+        ]);
     }
 
     public static function recuperar()
