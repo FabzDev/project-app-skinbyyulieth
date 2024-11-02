@@ -19,12 +19,11 @@
         <form class="formulario">
             <div class="campo">
                 <label for="nombre">Nombre</label>
-                <input 
-                    id="nombre" 
+                <input
+                    id="nombre"
                     type="text"
                     value="<?php echo $nombre ?>"
-                    disabled
-                >
+                    disabled>
             </div>
             <div class="campo">
                 <label for="fecha">Fecha</label>
@@ -46,3 +45,9 @@
     <button class="boton">&laquo Anterior</button>
     <button class="boton">Siguiente &raquo</button>
 </div>
+
+<?php
+$script = "
+        <script src='>build/js/app.js'</script>
+    "
+?>
