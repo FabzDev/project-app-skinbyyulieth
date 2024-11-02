@@ -2,9 +2,9 @@
 <p class="descripcion-pagina">Elige tus servicios a continuación:</p>
 
 <nav class="tabs">
-    <button class="actual">Servicios</button>
-    <button>Información Cita</button>
-    <button>Resumen</button>
+    <button type="button" data-paso="1" class="actual">Servicios</button>
+    <button type="button" data-paso="2">Información Cita</button>
+    <button type="button" data-paso="3">Resumen</button>
 </nav>
 
 <div class="app">
@@ -40,4 +40,9 @@
         <h2>Resumen</h2>
         <p class="text-center">Verifica la información</p>
     </div>
+</div>
+
+<div class="paginacion">
+    <button class="boton">&laquo Anterior</button>
+    <button class="boton">Siguiente &raquo</button>
 </div>
