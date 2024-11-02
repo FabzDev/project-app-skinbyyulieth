@@ -6,6 +6,7 @@ const pasoFinal = 3;
 document.addEventListener("DOMContentLoaded", function () {
     iniciarApp();
 });
+
 function mostrarSeccion() { // Muestra y oculta las secciones dinamicamente
 	// Remover .mostrar de la seccion anterior (si existe)
     let seccionAnterior = document.querySelector(".mostrar");
@@ -60,6 +61,17 @@ function funcBotonesPag(){
     })
 }
 
+function tabs(){
+    const botonesNav = document.querySelectorAll(".tabs button");
+	botonesNav.forEach((boton) =>
+		boton.addEventListener("click", function (e) {
+			paso = parseInt(e.target.dataset.paso);
+			mostrarSeccion();
+            mostrarOcultarBtnsPag();
+		})
+	);
+}
+
 function iniciarApp() { // Muestra las secciones y crea listeners en los botones de los tabs
     //Muestra las secciones
     mostrarSeccion(); 
@@ -68,12 +80,5 @@ function iniciarApp() { // Muestra las secciones y crea listeners en los botones
     // Agrega la funcionalidad a los botones de paginación
     funcBotonesPag();
     // Agrega listeners a los botones de navegación
-    let botonesNav = document.querySelectorAll(".tabs button");
-	botonesNav.forEach((boton) =>
-		boton.addEventListener("click", function (e) {
-			paso = parseInt(e.target.dataset.paso);
-			mostrarSeccion();
-            mostrarOcultarBtnsPag();
-		})
-	);
+    tabs();
 }
