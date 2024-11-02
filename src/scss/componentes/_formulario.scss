@@ -19,5 +19,10 @@
         padding: calc(v.$separacion / 4);
         border: none;
         border-radius: 1rem;
+
+        &:disabled{
+            background-color: lighten(v.$strPink, 25%);
+            color: white;
+        }
     }
 }
