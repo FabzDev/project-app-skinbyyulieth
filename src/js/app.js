@@ -1,4 +1,7 @@
 let paso = 1;
+const pasoInicial = 1;
+const pasoFinal = 3;
+
 
 document.addEventListener("DOMContentLoaded", function () {
     iniciarApp();
@@ -24,15 +27,53 @@ function mostrarSeccion() { // Muestra y oculta las secciones dinamicamente
 
 }
 
+function mostrarOcultarBtnsPag(){
+    const btnPaginaAnterior = document.querySelector('#anterior');
+    const btnPaginaSiguiente = document.querySelector('#siguiente');
+
+    if(paso===1){
+        btnPaginaAnterior.classList.add('ocultar')
+        btnPaginaSiguiente.classList.remove('ocultar')
+    } else if (paso ===3){
+        btnPaginaAnterior.classList.remove('ocultar')
+        btnPaginaSiguiente.classList.add('ocultar')
+    } else {
+        btnPaginaAnterior.classList.remove('ocultar')
+        btnPaginaSiguiente.classList.remove('ocultar')
+    }
+}
+
+function funcBotonesPag(){
+    btnPagAnt = document.querySelector('#anterior');
+    btnPagSig = document.querySelector('#siguiente');
+    btnPagAnt.addEventListener('click', function(){
+        if (paso<=pasoInicial) return;
+        paso--;
+        mostrarSeccion();
+        mostrarOcultarBtnsPag();
+    })
+    btnPagSig.addEventListener('click', function(){
+        if (paso>=pasoFinal) return;
+        paso++;
+        mostrarSeccion();
+        mostrarOcultarBtnsPag();
+    })
+}
+
 function iniciarApp() { // Muestra las secciones y crea listeners en los botones de los tabs
     //Muestra las secciones
     mostrarSeccion(); 
-    // Agrega listeners a los botones
-    let botones = document.querySelectorAll(".tabs button");
-	botones.forEach((boton) =>
+    //Muestra/oculta botoned de paginación
+    mostrarOcultarBtnsPag();
+    // Agrega la funcionalidad a los botones de paginación
+    funcBotonesPag();
+    // Agrega listeners a los botones de navegación
+    let botonesNav = document.querySelectorAll(".tabs button");
+	botonesNav.forEach((boton) =>
 		boton.addEventListener("click", function (e) {
 			paso = parseInt(e.target.dataset.paso);
 			mostrarSeccion();
+            mostrarOcultarBtnsPag();
 		})
 	);
 }

@@ -42,8 +42,8 @@
 </div>
 
 <div class="paginacion">
-    <button class="boton">&laquo Anterior</button>
-    <button class="boton">Siguiente &raquo</button>
+    <button class="boton" id="anterior" >&laquo Anterior</button>
+    <button class="boton" id="siguiente">Siguiente &raquo</button>
 </div>
 
 <?php
