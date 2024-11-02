@@ -9,7 +9,7 @@ class CitasController
     public static function index(Router $router) {
         session_start();
         
-        $router->render('auth/citas', [
+        $router->render('citas/index', [
             'nombre' => $_SESSION['nombreCompleto'],
         ]);
     }
