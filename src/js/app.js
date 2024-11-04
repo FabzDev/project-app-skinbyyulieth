@@ -6,6 +6,26 @@ document.addEventListener("DOMContentLoaded", function () {
 	iniciarApp();
 });
 
+function iniciarApp() {
+	// Muestra las secciones y crea listeners en los botones de los tabs
+	//Muestra las secciones
+	mostrarSeccion();
+	//Muestra/oculta botoned de paginación
+	mostrarOcultarBtnsPag();
+	// Agrega la funcionalidad a los botones de paginación
+	funcBotonesPag();
+	// Agrega listeners a los botones de navegación
+	tabs();
+	// Cargar datos de la API
+	consultarAPI();
+
+	obtenerNombre();
+
+	asignarFecha();
+
+	asignarHora();
+}
+
 const cita = {
 	nombre: "",
 	fecha: "",
@@ -43,6 +63,7 @@ function mostrarOcultarBtnsPag() {
 	} else if (paso === 3) {
 		btnPaginaAnterior.classList.remove("ocultar");
 		btnPaginaSiguiente.classList.add("ocultar");
+		mostrarResumen();
 	} else {
 		btnPaginaAnterior.classList.remove("ocultar");
 		btnPaginaSiguiente.classList.remove("ocultar");
@@ -116,23 +137,76 @@ function mostrarServicios(servicios) {
 
 function seleccionarServicio(serv) {
 	const servicios = cita.servicios;
-	cita.servicios = [...servicios, serv];
 	const { id } = serv;
-    const cardSeleccionada = document.querySelector(`[data-id-servicios="${id}"]`);
-    cardSeleccionada.classList.add('seleccionado')
-    
+	const cardSeleccionada = document.querySelector(`[data-id-servicios="${id}"]`);
+
+	if (servicios.some((unServicio) => unServicio.id == serv.id)) {
+		cita.servicios = servicios.filter((servicio) => servicio !== serv);
+		cardSeleccionada.classList.remove("seleccionado");
+	} else {
+		cita.servicios = [...servicios, serv];
+		cardSeleccionada.classList.add("seleccionado");
+	}
+	// console.log(cita);
 }
 
-function iniciarApp() {
-	// Muestra las secciones y crea listeners en los botones de los tabs
-	//Muestra las secciones
-	mostrarSeccion();
-	//Muestra/oculta botoned de paginación
-	mostrarOcultarBtnsPag();
-	// Agrega la funcionalidad a los botones de paginación
-	funcBotonesPag();
-	// Agrega listeners a los botones de navegación
-	tabs();
-	// Cargar datos de la API
-	consultarAPI();
+function obtenerNombre() {
+	cita.nombre = document.querySelector("#nombre").value;
+}
+
+function asignarFecha() {
+	const elementoFecha = document.querySelector("#fecha");
+	elementoFecha.addEventListener("input", function (e) {
+		const date = new Date(e.target.value);
+		const day = date.getUTCDay();
+		if ([1].includes(day)) {
+			sendAlert("error", "Los Lunes no estamos disponibles");
+		} else {
+			cita.fecha = date;
+		}
+	});
+}
+
+function asignarHora() {
+	const elementoHora = document.querySelector("#hora");
+	elementoHora.addEventListener("input", function (e) {
+		const hora = e.target.value;
+		const horaArray = hora.split(":");
+		if (horaArray[0] < 8 || horaArray[0] >= 19) {
+			sendAlert("error", "La hora ingresada no es válida");
+		} else {
+			cita.hora = hora;
+		}
+	});
+}
+
+function mostrarResumen() {
+	if (Object.values(cita).includes("")) {
+		console.log("FALTA INFORMACION");
+	} else {
+		console.log("MOSTRANDO RESUMEN");
+	}
+	console.log(cita);
+
+	// console.log(Object.values(cita).includes(''));
+}
+
+function sendAlert(tipo, mensaje) {
+	// Verificar que no existan alertas
+	if (document.querySelector(".alerta")) return;
+
+	// Crear el elemento html de la alerta
+	const alertaHtml = document.createElement("DIV");
+	alertaHtml.classList.add("alerta");
+	alertaHtml.classList.add(tipo);
+	alertaHtml.textContent = mensaje;
+
+	// Agregar html de alerta al form
+	const formHtml = document.querySelector(".formulario");
+	formHtml.appendChild(alertaHtml);
+
+	// Eliminar la alerta despues de 3 segundos
+	setTimeout(() => {
+		alertaHtml.remove();
+	}, 3000);
 }
