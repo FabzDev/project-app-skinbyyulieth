@@ -161,6 +161,7 @@ function asignarFecha() {
 		const day = date.getUTCDay();
 		if ([1].includes(day)) {
 			sendAlert("error", "Los Lunes no estamos disponibles");
+            elementoFecha.value = '';
 		} else {
 			cita.fecha = date;
 		}
@@ -174,6 +175,7 @@ function asignarHora() {
 		const horaArray = hora.split(":");
 		if (horaArray[0] < 8 || horaArray[0] >= 19) {
 			sendAlert("error", "La hora ingresada no es válida");
+            elementoHora.value = '';
 		} else {
 			cita.hora = hora;
 		}
@@ -181,19 +183,37 @@ function asignarHora() {
 }
 
 function mostrarResumen() {
-	if (Object.values(cita).includes("")) {
-		console.log("FALTA INFORMACION");
-	} else {
-		console.log("MOSTRANDO RESUMEN");
+    const divPaso3 = document.querySelector('#paso-3'); 
+    while(divPaso3.childNodes[0]){
+        divPaso3.childNodes[0].remove();
+    }
+	const { nombre, fecha, hora, servicios } = cita;
+	if (Object.values(cita).includes("") || cita.servicios.length == 0) {
+        sendAlert("error", "Falta ingresar información", "#paso-3", false);
+		return;
 	}
-	console.log(cita);
+    document.querySelector(".alerta")?.remove();
+	servicios.forEach((servicio) => {
+        const { id, nombre, precio } = servicio;
+        const divResumen = document.createElement("DIV");
+		divResumen.classList.add("contenedor-resumen");
+		const pNombreServicio = document.createElement("P");
+		pNombreServicio.textContent = nombre;
+		const pPrecioServicio = document.createElement("P");
+		pPrecioServicio.innerHTML = `<span>Precio: </span>${precio}`;
 
-	// console.log(Object.values(cita).includes(''));
+        divResumen.appendChild(pNombreServicio);
+        divResumen.appendChild(pPrecioServicio);
+        const divPaso3 = document.querySelector('#paso-3');
+        divPaso3.appendChild(divResumen);
+	});
 }
 
-function sendAlert(tipo, mensaje) {
+function sendAlert(tipo, mensaje, element = ".formulario", desaparece = true) {
 	// Verificar que no existan alertas
-	if (document.querySelector(".alerta")) return;
+	if (document.querySelector(".alerta")) {
+		document.querySelector(".alerta").remove();
+	}
 
 	// Crear el elemento html de la alerta
 	const alertaHtml = document.createElement("DIV");
@@ -202,11 +222,13 @@ function sendAlert(tipo, mensaje) {
 	alertaHtml.textContent = mensaje;
 
 	// Agregar html de alerta al form
-	const formHtml = document.querySelector(".formulario");
+	const formHtml = document.querySelector(element);
 	formHtml.appendChild(alertaHtml);
 
 	// Eliminar la alerta despues de 3 segundos
-	setTimeout(() => {
-		alertaHtml.remove();
-	}, 3000);
+	if (desaparece) {
+		setTimeout(() => {
+			alertaHtml.remove();
+		}, 3000);
+	}
 }
