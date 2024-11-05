@@ -257,10 +257,10 @@ async function reservarCita(){
     const data = new FormData();
     data.append('nombre', 'Fabio');
 
-    const urlCitas = 'https://localhost3000/api/citas';
+    const urlCitas = 'http://localhost:3000/api/citas';
     const rawData = await fetch(urlCitas, {method:'POST'});
-    // const dataCita = await rawData.json();
-    console.log(rawData);
+    const dataCita = await rawData.json();
+    console.log(dataCita);
     
     
 }
