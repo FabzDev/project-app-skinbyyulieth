@@ -13,7 +13,12 @@ class APIController{
 
     // Guardar citas
     public static function guardarCita(){
-        $respuesta = ['mi respuesta'=>'TODO OK CANADA'];
+
+        $respuesta = [
+            'datos'=>$_POST
+        ];
+        
+
         echo json_encode($respuesta);
     }
 

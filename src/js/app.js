@@ -254,11 +254,22 @@ function mostrarResumen() {
 }
 
 async function reservarCita(){
+    const { nombre, fecha, hora, servicios } = cita; 
+    
+    const serviciosId = servicios.map( servicio => servicio.id);
+    // console.log(serviciosId);
+    
     const data = new FormData();
-    data.append('nombre', 'Fabio');
+    data.append('nombre', nombre);
+    data.append('fecha', fecha);
+    data.append('hora', hora);
+    data.append('servicios', serviciosId);
 
     const urlCitas = 'http://localhost:3000/api/citas';
-    const rawData = await fetch(urlCitas, {method:'POST'});
+    const rawData = await fetch(urlCitas, {
+            method:'POST',
+            body: data
+        });
     const dataCita = await rawData.json();
     console.log(dataCita);
     
