@@ -13,7 +13,6 @@ class APIController{
 
     // Guardar citas
     public static function guardarCita(){
-
         $respuesta = [
             'datos'=>$_POST
         ];

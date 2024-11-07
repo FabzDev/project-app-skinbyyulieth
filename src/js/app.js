@@ -157,22 +157,13 @@ function obtenerNombre() {
 function asignarFecha() {
 	const elementoFecha = document.querySelector("#fecha");
 	elementoFecha.addEventListener("input", function (e) {
-		const date = new Date(e.target.value);
-        const dia = date.getDate();
-        const mes = date.getMonth();
-        const year = date.getFullYear();
-        const fechaUTC = new Date(Date.UTC(year, mes, dia+2)); 
-        
-        const opcionesFecha = {weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'};
-        const fechaFormateada = fechaUTC.toLocaleDateString('es-CO', opcionesFecha);
-        
-        // Validación dia de la semana en servicio
-		const day = date.getUTCDay();
+		// Validación dia de la semana en servicio
+		const day = new Date(e.target.value).getUTCDay();
 		if ([1].includes(day)) {
 			sendAlert("error", "Los Lunes no estamos disponibles");
-            elementoFecha.value = '';
+			elementoFecha.value = "";
 		} else {
-			cita.fecha = fechaFormateada;
+			cita.fecha = e.target.value;
 		}
 	});
 }
@@ -184,96 +175,103 @@ function asignarHora() {
 		const horaArray = hora.split(":");
 		if (horaArray[0] < 8 || horaArray[0] >= 19) {
 			sendAlert("error", "La hora ingresada no es válida");
-            elementoHora.value = '';
+			elementoHora.value = "";
 		} else {
-			cita.hora = hora;
+			cita.hora = e.target.value;
 		}
 	});
 }
 
 function mostrarResumen() {
-    const divPaso3 = document.querySelector('#paso-3'); 
-    divPaso3.classList.add('contenido-resumen');
-    while(divPaso3.childNodes[0]){
-        divPaso3.childNodes[0].remove();
-    }
+	const divPaso3 = document.querySelector("#paso-3");
+	divPaso3.classList.add("contenido-resumen");
+	while (divPaso3.childNodes[0]) {
+		divPaso3.childNodes[0].remove();
+	}
 	const { nombre, fecha, hora, servicios } = cita;
 	if (Object.values(cita).includes("") || cita.servicios.length == 0) {
-        sendAlert("error", "Falta ingresar información", "#paso-3", false);
+		sendAlert("error", "Falta ingresar información", "#paso-3", false);
 		return;
 	}
-    document.querySelector(".alerta")?.remove();
+	document.querySelector(".alerta")?.remove();
+
+	//Formateando fecha
+	const date = new Date(fecha);
+	const dia = date.getDate();
+	const mes = date.getMonth();
+	const year = date.getFullYear();
+	const fechaUTC = new Date(Date.UTC(year, mes, dia + 2));
+	const opcionesFecha = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+	const fechaFormateada = fechaUTC.toLocaleDateString("es-CO", opcionesFecha);
 
 	//Renderizando Nombre, Fecha y Hora
-    const divDatosPersonales = document.createElement("DIV");
-    divDatosPersonales.classList.add('contenedor-datos');
-    const pNombre = document.createElement("P");
-    pNombre.innerHTML = `<span>Nombre: </span>${nombre}`;
-    const pFecha = document.createElement("P");
-    pFecha.innerHTML = `<span>Fecha: </span>${fecha}`;
-    const pHora = document.createElement("P");
-    pHora.innerHTML = `<span>Hora: </span>${hora} horas`;
-    const botonResumen = document.createElement('BUTTON');
-    botonResumen.classList.add('boton');
-    botonResumen.textContent = 'Reservar';
-    botonResumen.onclick = reservarCita;
-    
-    
-    // Div datos personales
-    const headingDatosPersonales = document.createElement('H3')
-    headingDatosPersonales.textContent = 'Resumen de Cita'
-    divDatosPersonales.appendChild(headingDatosPersonales);
-    divDatosPersonales.appendChild(pNombre);
-    divDatosPersonales.appendChild(pFecha);
-    divDatosPersonales.appendChild(pHora);
-    divDatosPersonales.appendChild(botonResumen);
-    
-    
-    // Heading servicios en resumen
-    const headingServicios = document.createElement('H3')
-    headingServicios.textContent = 'Resumen de Servicios'
-    divPaso3.appendChild(headingServicios);
+	const divDatosPersonales = document.createElement("DIV");
+	divDatosPersonales.classList.add("contenedor-datos");
+	const pNombre = document.createElement("P");
+	pNombre.innerHTML = `<span>Nombre: </span>${nombre}`;
+	const pFecha = document.createElement("P");
+	pFecha.innerHTML = `<span>Fecha: </span>${fechaFormateada}`;
+	const pHora = document.createElement("P");
+	pHora.innerHTML = `<span>Hora: </span>${hora} horas`;
+	const botonResumen = document.createElement("BUTTON");
+	botonResumen.classList.add("boton");
+	botonResumen.textContent = "Reservar";
+	botonResumen.onclick = reservarCita;
 
-    // Iterando y renderizando los servicios
-    servicios.forEach((servicio) => {
-        const { id, nombre, precio } = servicio;
-        const divServicio = document.createElement("DIV");
+	// Div datos personales
+	const headingDatosPersonales = document.createElement("H3");
+	headingDatosPersonales.textContent = "Resumen de Cita";
+	divDatosPersonales.appendChild(headingDatosPersonales);
+	divDatosPersonales.appendChild(pNombre);
+	divDatosPersonales.appendChild(pFecha);
+	divDatosPersonales.appendChild(pHora);
+	divDatosPersonales.appendChild(botonResumen);
+
+	// Heading servicios en resumen
+	const headingServicios = document.createElement("H3");
+	headingServicios.textContent = "Resumen de Servicios";
+	divPaso3.appendChild(headingServicios);
+
+	// Iterando y renderizando los servicios
+	servicios.forEach((servicio) => {
+		const { id, nombre, precio } = servicio;
+		const divServicio = document.createElement("DIV");
 		divServicio.classList.add("contenedor-servicio");
 		const pNombreServicio = document.createElement("P");
 		pNombreServicio.textContent = nombre;
 		const pPrecioServicio = document.createElement("P");
 		pPrecioServicio.innerHTML = `<span>Precio: </span>${precio}`;
 
-        divServicio.appendChild(pNombreServicio);
-        divServicio.appendChild(pPrecioServicio);
-        divPaso3.appendChild(divServicio);
-
-        
+		divServicio.appendChild(pNombreServicio);
+		divServicio.appendChild(pPrecioServicio);
+		divPaso3.appendChild(divServicio);
 	});
-    divPaso3.append(divDatosPersonales);
+	divPaso3.append(divDatosPersonales);
 }
 
-async function reservarCita(){
-    const { nombre, fecha, hora, servicios } = cita; 
-    
-    const serviciosId = servicios.map( servicio => servicio.id);
-    // console.log(serviciosId);
-    
-    const data = new FormData();
-    data.append('nombre', nombre);
-    data.append('fecha', fecha);
-    data.append('hora', hora);
-    data.append('servicios', serviciosId);
+async function reservarCita() {
+	// Desestructurando el objeto Cita y tomando ids de los servicios
+	const { nombre, fecha, hora, servicios } = cita;
+	const serviciosId = servicios.map((servicio) => servicio.id);
 
-    const urlCitas = 'http://localhost:3000/api/citas';
-    const rawData = await fetch(urlCitas, {
-            method:'POST',
-            body: data
-        });
-    const dataCita = await rawData.json();
-    console.log(dataCita);
-    
-    
+	// Agregando la información de SBY a un obj formData
+	const data = new FormData();
+	data.append("nombre", nombre);
+	data.append("fecha", fecha);
+	data.append("hora", hora);
+	data.append("servicios", serviciosId);
+
+	// Enviando el obj formData en el body de la peticion post a api/citas
+	const urlCitas = "http://localhost:3000/api/citas";
+	const rawData = await fetch(urlCitas, {
+		method: "POST",
+		body: data,
+	});
+
+	const dataCita = await rawData.json();
+	console.log(dataCita);
+
+	// console.log(serviciosId);
 }
 
 function sendAlert(tipo, mensaje, element = ".formulario", desaparece = true) {
