@@ -2,6 +2,7 @@
 
 namespace Controllers;
 
+use Model\Citas;
 use Model\Servicio;
 
 class APIController{
@@ -13,12 +14,12 @@ class APIController{
 
     // Guardar citas
     public static function guardarCita(){
-        $respuesta = [
-            'datos'=>$_POST
-        ];
         
+        $citas = new Citas($_POST);
+        $respCitas = $citas->guardar();
 
-        echo json_encode($respuesta);
+        echo json_encode($respCitas);
+        // echo json_encode();
     }
 
 

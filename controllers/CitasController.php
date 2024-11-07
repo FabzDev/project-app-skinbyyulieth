@@ -11,6 +11,7 @@ class CitasController
         
         $router->render('citas/index', [
             'nombre' => $_SESSION['nombreCompleto'],
+            'idUser' => $_SESSION['id'],
         ]);
     }
 }

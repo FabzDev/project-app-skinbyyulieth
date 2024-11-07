@@ -44,6 +44,7 @@
         <p class="text-center">Verifica la información</p>
     </div>
 </div>
+<input type="hidden" id="idUsuario" value="<?php echo $idUser ?>">
 
 <div class="paginacion">
     <button class="boton" id="anterior" >&laquo Anterior</button>

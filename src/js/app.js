@@ -7,26 +7,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function iniciarApp() {
-	// Muestra las secciones y crea listeners en los botones de los tabs
-	//Muestra las secciones
-	mostrarSeccion();
-	//Muestra/oculta botoned de paginación
-	mostrarOcultarBtnsPag();
-	// Agrega la funcionalidad a los botones de paginación
-	funcBotonesPag();
-	// Agrega listeners a los botones de navegación
-	tabs();
-	// Cargar datos de la API
-	consultarAPI();
+	mostrarSeccion(); //Carga y muestra las secciones y los listeners 
 
-	obtenerNombre();
+    mostrarOcultarBtnsPag(); //Muestra/oculta botones de paginación
+	
+	funcBotonesPag(); //Agrega funcionalidad a los botones de paginación
 
-	asignarFecha();
+	tabs(); //Agrega listeners a los botones tabs de navegación
+	
+    consultarAPI(); //Carga los datos de la API
 
-	asignarHora();
+    obtenerId() //Obtiene el idUsuario desde el html
+
+	obtenerNombre(); //Obtiene el nombre desde el html
+
+	asignarFecha(); //Asigna la fecha teniendo en cuenta la disponibilidad
+
+	asignarHora(); //Asigna la hora teniendo en cuenta la disponibilidad
 }
 
 const cita = {
+    idUsuario:"",
 	nombre: "",
 	fecha: "",
 	hora: "",
@@ -154,6 +155,10 @@ function obtenerNombre() {
 	cita.nombre = document.querySelector("#nombre").value;
 }
 
+function obtenerId() {
+	cita.idUsuario = document.querySelector("#id").value;
+}
+
 function asignarFecha() {
 	const elementoFecha = document.querySelector("#fecha");
 	elementoFecha.addEventListener("input", function (e) {
@@ -188,6 +193,8 @@ function mostrarResumen() {
 	while (divPaso3.childNodes[0]) {
 		divPaso3.childNodes[0].remove();
 	}
+    console.log(cita);
+    
 	const { nombre, fecha, hora, servicios } = cita;
 	if (Object.values(cita).includes("") || cita.servicios.length == 0) {
 		sendAlert("error", "Falta ingresar información", "#paso-3", false);
@@ -261,6 +268,8 @@ async function reservarCita() {
 	data.append("hora", hora);
 	data.append("servicios", serviciosId);
 
+    
+
 	// Enviando el obj formData en el body de la peticion post a api/citas
 	const urlCitas = "http://localhost:3000/api/citas";
 	const rawData = await fetch(urlCitas, {
@@ -268,7 +277,7 @@ async function reservarCita() {
 		body: data,
 	});
 
-	const dataCita = await rawData.json();
+	const dataCita = await rawData.json();  
 	console.log(dataCita);
 
 	// console.log(serviciosId);
