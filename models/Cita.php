@@ -2,7 +2,7 @@
 
 namespace Model;
 
-class Citas extends ActiveRecord
+class Cita extends ActiveRecord
 {
     //Base de datos
     protected static $tabla = 'citas';

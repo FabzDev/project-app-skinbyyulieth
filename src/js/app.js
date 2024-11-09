@@ -7,27 +7,19 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function iniciarApp() {
-	mostrarSeccion(); //Carga y muestra las secciones y los listeners 
-
-    mostrarOcultarBtnsPag(); //Muestra/oculta botones de paginación
-	
+	mostrarSeccion(); //Carga y muestra las secciones y los listeners
+	mostrarOcultarBtnsPag(); //Muestra/oculta botones de paginación
 	funcBotonesPag(); //Agrega funcionalidad a los botones de paginación
-
 	tabs(); //Agrega listeners a los botones tabs de navegación
-	
-    consultarAPI(); //Carga los datos de la API
-
-    obtenerId() //Obtiene el idUsuario desde el html
-
+	consultarServiciosAPI(); //Carga los datos desde la API
+	obtenerId(); //Obtiene el idUsuario desde el html
 	obtenerNombre(); //Obtiene el nombre desde el html
-
 	asignarFecha(); //Asigna la fecha teniendo en cuenta la disponibilidad
-
 	asignarHora(); //Asigna la hora teniendo en cuenta la disponibilidad
 }
 
 const cita = {
-    idUsuario:"",
+	idUsuario: "",
 	nombre: "",
 	fecha: "",
 	hora: "",
@@ -99,14 +91,14 @@ function tabs() {
 	);
 }
 
-async function consultarAPI() {
+async function consultarServiciosAPI() {
 	try {
 		const url = "http://localhost:3000/api/servicios";
 		let resultado = await fetch(url);
 		let servicios = await resultado.json();
 		mostrarServicios(servicios);
 	} catch (error) {
-		console.log(error);
+		console.log("error en consultarAPI" + error);
 	}
 }
 
@@ -148,7 +140,6 @@ function seleccionarServicio(serv) {
 		cita.servicios = [...servicios, serv];
 		cardSeleccionada.classList.add("seleccionado");
 	}
-	// console.log(cita);
 }
 
 function obtenerNombre() {
@@ -156,7 +147,7 @@ function obtenerNombre() {
 }
 
 function obtenerId() {
-	cita.idUsuario = document.querySelector("#id").value;
+	cita.idUsuario = document.querySelector("#idUsuario").value;
 }
 
 function asignarFecha() {
@@ -193,8 +184,8 @@ function mostrarResumen() {
 	while (divPaso3.childNodes[0]) {
 		divPaso3.childNodes[0].remove();
 	}
-    console.log(cita);
-    
+	// console.log(cita);
+
 	const { nombre, fecha, hora, servicios } = cita;
 	if (Object.values(cita).includes("") || cita.servicios.length == 0) {
 		sendAlert("error", "Falta ingresar información", "#paso-3", false);
@@ -258,29 +249,45 @@ function mostrarResumen() {
 
 async function reservarCita() {
 	// Desestructurando el objeto Cita y tomando ids de los servicios
-	const { nombre, fecha, hora, servicios } = cita;
+	const { idUsuario, nombre, fecha, hora, servicios } = cita;
 	const serviciosId = servicios.map((servicio) => servicio.id);
-
-	// Agregando la información de SBY a un obj formData
-	const data = new FormData();
-	data.append("nombre", nombre);
-	data.append("fecha", fecha);
-	data.append("hora", hora);
-	data.append("servicios", serviciosId);
-
+    // console.log(serviciosId);
     
+	// Agregando la información de SBY a un obj formData
+	const formData = new FormData();
+	formData.append("usuarioId", idUsuario);
+	formData.append("nombre", nombre);
+	formData.append("fecha", fecha);
+	formData.append("hora", hora);
+	formData.append("servicios", serviciosId);
 
-	// Enviando el obj formData en el body de la peticion post a api/citas
-	const urlCitas = "http://localhost:3000/api/citas";
-	const rawData = await fetch(urlCitas, {
-		method: "POST",
-		body: data,
-	});
-
-	const dataCita = await rawData.json();  
-	console.log(dataCita);
-
-	// console.log(serviciosId);
+	try {
+		// Enviando el obj formData en el body de la peticion post a api/citas
+		const urlCitas = "http://localhost:3000/api/citas";
+		const respCita = await fetch(urlCitas, {
+			method: "POST",
+			body: formData,
+		});
+		const dataCita = await respCita.json();
+		// console.log(dataCita);
+		//Validando si el registro fue guardado en la base de datos
+		if (dataCita.resultado) {
+			Swal.fire({
+				icon: "success",
+				title: "Cita Agendada",
+				text: "Tu cita fue agendada correctamente.",
+			}).then(() => {
+				window.location.reload();
+			}, 1000);
+		}
+	} catch (error) {
+		Swal.fire({
+			icon: "error",
+			title: "Error...",
+			text: "Ocurrió un problema al agendar tu cita.",
+			footer: '<a href="#">Why do I have this issue?</a>',
+		});
+	}
 }
 
 function sendAlert(tipo, mensaje, element = ".formulario", desaparece = true) {
