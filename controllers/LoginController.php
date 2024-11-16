@@ -38,8 +38,6 @@ class LoginController
                         } else {
                             header('Location: /citas');
                         }
-
-                        debuguear($_SESSION);
                     } else {
                         $alertas['error'][] = 'El password ingresado no es correcto, o tu cuenta no ha sido validada';
                     }

@@ -17,7 +17,7 @@ class APIController{
     public static function guardarCita(){ //$_POST
         $cita = new Cita($_POST);
         $respCita = $cita->guardar();
-        $citaId = $respCita['id'];
+        $citaId = intval($respCita['id']);
         $servicios = explode(",", $_POST['servicios']);
         foreach ($servicios as $servicio)   {
             $args = [
