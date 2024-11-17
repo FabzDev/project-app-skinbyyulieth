@@ -24,3 +24,20 @@
     margin: 1rem auto;
     padding: 1rem 0;
 }
+
+.barra{
+    @include m.tablet{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        
+    }
+    
+    .boton {
+        background-color: v.$abbey;
+        color: white;
+        margin: 2rem 0;
+        padding: 1rem;
+        border-radius: 5px;
+    }
+}

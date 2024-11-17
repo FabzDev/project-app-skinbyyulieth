@@ -1,5 +1,10 @@
+<div class="barra">
+    <p>Hola, <?php echo $nombre ?? '';?></p>
+    <a class="boton" href="/logout">Cerrar Sesión</a>
+</div>
 <h1 class="nombre-pagina">Crear nueva Cita</h1>
 <p class="descripcion-pagina">Elige tus servicios a continuación:</p>
+
 
 <nav class="tabs">
     <button type="button" data-paso="1" class="actual">Servicios</button>
