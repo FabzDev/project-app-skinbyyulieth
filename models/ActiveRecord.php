@@ -147,6 +147,11 @@ class ActiveRecord
         return array_shift($resultado);
     }
 
+    // Realiza una consulta de SQL plana (Usar cuando los otros métodos no se puedan utilizar)
+    public static function SQL($query){
+        return self::consultarSQL($query);
+    }
+
     // crea un nuevo registro
     public function crear()
     {
