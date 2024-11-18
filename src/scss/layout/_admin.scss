@@ -1,0 +1,21 @@
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
+
+
+.citas {
+	margin-top: v.$separacion;
+	li {
+		border-top: 1px solid v.$tan;
+		list-style: none;
+		padding: 1rem;
+		p {
+			font-weight: v.$bold;
+			color: v.$tan;
+		}
+		span,
+		.servicio {
+			font-weight: v.$regular;
+			color: v.$blanco;
+		}
+	}
+}

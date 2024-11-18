@@ -24,20 +24,22 @@ include_once __DIR__ . "/../templates/barra.php"
             if ($idCita != $cita->id) {
         ?>
                 <li>
-                    <p>ID: <span><?php echo $cita->id;?></span></p>
-                    <p>Hora: <span><?php echo $cita->hora;?></span></p>
-                    <p>Cliente: <span><?php echo $cita->cliente;?></span></p>
+                    <p>ID: <span><?php echo $cita->id; ?></span></p>
+                    <p>Hora: <span><?php echo $cita->hora; ?></span></p>
+                    <p>Cliente: <span><?php echo $cita->cliente; ?></span></p>
+                    <p>Email: <span><?php echo $cita->email; ?></span></p>
+                    <p>Telefono: <span><?php echo $cita->telefono; ?></span></p>
+                    <?php
+                    $idCita = $cita->id;
+                    ?>
+                    <h2 class="servicios-title">Servicios</h2>
                 <?php
-                $idCita = $cita->id;
-                ?>
-                <h2>Servicios</h2>
-            <?php
             } //Fin del if
-            ?>
-            <p class="servicio"><?php echo $cita->servicio; ?></p>
-        <?php
+                ?>
+                    <p class="servicio"><?php echo $cita->servicio; ?></p>
+            <?php
         } //Fin del for each
-        ?>
-        </li>
+            ?>
+                </li>
     </ul>
 </div>
