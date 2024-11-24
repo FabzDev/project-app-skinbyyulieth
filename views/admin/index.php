@@ -11,7 +11,8 @@ include_once __DIR__ . "/../templates/barra.php"
             <input
                 type="date"
                 id="fecha"
-                name="fecha">
+                name="fecha"
+                value="<?php echo $fechaActual; ?>">
         </div>
     </form>
 </div>
@@ -20,9 +21,18 @@ include_once __DIR__ . "/../templates/barra.php"
     <ul class="citas">
         <?php
         $idCita = 0;
-        foreach ($citas as $cita) {
-            if ($idCita != $cita->id) {
+        $total = 0;
+
+        if (count($citas) === 0) {
         ?>
+            <h2 class="servicios-title">No hay citas en esta fecha</h2>
+            <?php
+        }
+
+        foreach ($citas as $key => $cita) {
+            if ($idCita != $cita->id) {
+                $total = 0;
+            ?>
                 <li>
                     <p>ID: <span><?php echo $cita->id; ?></span></p>
                     <p>Hora: <span><?php echo $cita->hora; ?></span></p>
@@ -35,11 +45,26 @@ include_once __DIR__ . "/../templates/barra.php"
                     <h2 class="servicios-title">Servicios</h2>
                 <?php
             } //Fin del if
+            $total += $cita->precio;
                 ?>
-                    <p class="servicio"><?php echo $cita->servicio; ?></p>
+                <p class="servicio"><?php echo $cita->servicio . " - $" . $cita->precio; ?></p>
+                <?php
+                if ($cita->id != $citas[$key + 1]->id) {
+                ?>
+                    <p class="total">Total: <span>$<?php echo $total; ?></span></p>
+                    
+                    <form action="/api/eliminar" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $cita->id ?>" />
+                        <input type="submit" class="boton-eliminar" value="Eliminar" />
+                    </form>
             <?php
-        } //Fin del for each
+                }
+            } //Fin del for each
             ?>
                 </li>
     </ul>
 </div>
+
+<?php
+$script = '<script src="build/js/buscador.js"></script>';
+?>

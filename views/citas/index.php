@@ -11,7 +11,7 @@
     <button type="button" data-paso="3">Resumen</button>
 </nav>
 
-<div class="app">
+<div class="app-citas">
     <div id="paso-1" class="seccion">
         <h2>Servicios</h2>
         <p class="text-center">Elige tus servicios a continuación</p>

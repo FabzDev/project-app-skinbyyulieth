@@ -32,11 +32,14 @@ $router->get('/mensaje',[LoginController::class, 'mensaje']);
 
 //Citas
 $router->get('/citas',[CitasController::class, 'index']);
+
+//Admin
 $router->get('/admin',[AdminController::class, 'index']);
 
 //API
 $router->get('/api/servicios',[APIController::class, 'index']);
 $router->post('/api/citas',[APIController::class, 'guardarCita']);
+$router->post('/api/eliminar',[APIController::class, 'eliminarCita']);
 
 
 // Comprueba y valida las rutas, que existan y les asigna las funciones del Controlador
