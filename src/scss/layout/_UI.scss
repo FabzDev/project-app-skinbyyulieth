@@ -25,6 +25,7 @@
     padding: 1rem 0;
     @include m.tablet{
         overflow: scroll;
+        overflow-x: hidden
     }
 }
 
@@ -42,5 +43,16 @@
         margin: 2rem 0;
         padding: 1rem;
         border-radius: 5px;
+    }
+}
+
+.barra-servicios{
+    @include m.tablet{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .boton{
+        margin: 1rem 0;
     }
 }
