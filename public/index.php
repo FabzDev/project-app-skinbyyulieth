@@ -6,6 +6,7 @@ use Controllers\AdminController;
 use Controllers\APIController;
 use Controllers\LoginController;
 use Controllers\CitasController;
+use Controllers\ServiciosController;
 use MVC\Router;
 
 $router = new Router();
@@ -32,6 +33,16 @@ $router->get('/mensaje',[LoginController::class, 'mensaje']);
 
 //Citas
 $router->get('/citas',[CitasController::class, 'index']);
+
+//Servicios
+$router->get('/servicios',[ServiciosController::class, 'index']);
+$router->post('/servicios',[ServiciosController::class, 'index']);
+$router->get('/servicios/crear',[ServiciosController::class, 'crear']);
+$router->post('/servicios/crear',[ServiciosController::class, 'crear']);
+$router->get('/servicios/actualizar',[ServiciosController::class, 'actualizar']);
+$router->post('/servicios/actualizar',[ServiciosController::class, 'actualizar']);
+$router->post('/servicios/eliminar',[ServiciosController::class, 'eliminar']);
+
 
 //Admin
 $router->get('/admin',[AdminController::class, 'index']);
