@@ -10,8 +10,11 @@ class ServiciosController
     public static function index(Router $router) {
         session_start();
         isAdmin();
+
+        $servicios = Servicio::all();
+        // debuguear($servicios);
         $router->render('servicios/index', [
-            // 'nombre' => $_SESSION['nombreCompleto'],
+            'servicios' => $servicios
         ]);
     }
 
