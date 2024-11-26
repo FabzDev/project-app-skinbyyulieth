@@ -43,8 +43,24 @@ class ServiciosController
     public static function actualizar(Router $router) {
         session_start();
         isAdmin();
+        $id = $_GET['id'];
+        if(!is_numeric($id)) return;
+        $servicio = Servicio::find($id);
+
+        if($_SERVER['REQUEST_METHOD']=== 'POST'){
+            $servicio->sincronizar($_POST);
+            $alertas = $servicio->validar();
+
+            if(empty($alertas)){
+                $servicio->guardar();
+                header('Location: /servicios');
+            }
+        }
+
+        // debuguear($servicio);
         $router->render('servicios/actualizar', [
-            // 'nombre' => $_SESSION['nombreCompleto'],
+            'servicio' => $servicio,
+            'alertas' => $alertas
         ]);
     }
 

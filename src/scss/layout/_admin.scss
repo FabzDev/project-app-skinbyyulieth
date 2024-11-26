@@ -22,4 +22,9 @@
 
 .servicios {
     @extend .citas;
+
+    .boton,
+    .boton-eliminar{
+        margin: 0;
+    }
 }
