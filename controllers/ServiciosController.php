@@ -10,12 +10,14 @@ class ServiciosController
     public static function index(Router $router)
     {
         session_start();
+        $nombre = $_SESSION['nombreCompleto'];
         isAdmin();
 
         $servicios = Servicio::all();
         // debuguear($servicios);
         $router->render('servicios/index', [
-            'servicios' => $servicios
+            'servicios' => $servicios,
+            'nombre' => $nombre,
         ]);
     }
 
@@ -23,6 +25,8 @@ class ServiciosController
     {
         session_start();
         isAdmin();
+
+        $nombre = $_SESSION['nombreCompleto'];
 
         $servicio = new Servicio;
         $alertas = [];
@@ -38,7 +42,8 @@ class ServiciosController
 
         $router->render('servicios/crear', [
             'servicio' => $servicio,
-            'alertas' => $alertas
+            'alertas' => $alertas,
+            'nombre' => $nombre
         ]);
     }
 
@@ -46,6 +51,8 @@ class ServiciosController
     {
         session_start();
         isAdmin();
+        $nombre = $_SESSION['nombreCompleto'];
+
         $id = $_GET['id'];
         if (!is_numeric($id)) return;
         $servicio = Servicio::find($id);
@@ -63,7 +70,8 @@ class ServiciosController
         // debuguear($servicio);
         $router->render('servicios/actualizar', [
             'servicio' => $servicio,
-            'alertas' => $alertas
+            'alertas' => $alertas,
+            'nombre' => $nombre
         ]);
     }
 
@@ -71,5 +79,12 @@ class ServiciosController
     {
         session_start();
         isAdmin();
+
+        $id = $_POST['id'];
+        $servicio = Servicio::find($id);
+        $servicio->eliminar();
+
+        header('Location: /servicios');
+        
     }
 }

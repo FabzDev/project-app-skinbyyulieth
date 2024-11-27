@@ -48,7 +48,7 @@ class LoginController
         }
 
         $inst1Router->render('auth/login', [
-            'alerts' => $alertas,
+            'alertas' => $alertas,
             'auth' => $auth
         ]);
     }
