@@ -1,59 +1,58 @@
-@use '../base/variables' as v;
-@use '../base/mixins' as m;
+@use "../base/variables" as v;
+@use "../base/mixins" as m;
 
 .contenedor-app {
-    @include m.tablet{
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        height: 100%;
-    }
+	@include m.tablet {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		height: 100%;
+	}
 }
 
 .imagen {
-    height: 20rem;
-    background-image: url(../img/1.jpg);
-    background-size: cover;
-    background-position: center center;
-    @include m.tablet{
-        height: auto;
-    }
+	height: 20rem;
+	background-image: url(../img/1.jpg);
+	background-size: cover;
+	background-position: top center;
+	@include m.tablet {
+		height: auto;
+	}
 }
 
 .app {
-    width: 95%;
-    margin: 1rem auto;
-    padding: 1rem 0;
-    @include m.tablet{
-        overflow: auto;
-        overflow-x: hidden;
-        scrollbar-gutter: stable;
-    }
+	width: 95%;
+	margin: 1rem auto;
+	padding: 1rem 0;
+	@include m.tablet {
+		overflow: auto;
+		overflow-x: hidden;
+		scrollbar-gutter: stable;
+	}
 }
 
-.barra{
-    @include m.tablet{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        
-    }
-    
-    .boton {
-        background-color: v.$abbey;
-        color: white;
-        margin: 2rem 0;
-        padding: 1rem;
-        border-radius: 5px;
-    }
+.barra {
+	@include m.tablet {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.boton {
+		background-color: v.$abbey;
+		color: white;
+		margin: 2rem 0;
+		padding: 1rem;
+		border-radius: 5px;
+	}
 }
 
-.barra-servicios{
-    @include m.tablet{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-    .boton{
-        margin: 1rem 0;
-    }
+.barra-servicios {
+	@include m.tablet {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.boton {
+		margin: 1rem 0;
+	}
 }

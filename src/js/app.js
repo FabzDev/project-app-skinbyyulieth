@@ -112,7 +112,7 @@ function mostrarServicios(servicios) {
 
 		const pPrecioServicio = document.createElement("P");
 		pPrecioServicio.classList.add("precio-servicio");
-		pPrecioServicio.textContent = `$ ${precio}`;
+		pPrecioServicio.textContent = `$ ${parseInt(precio).toLocaleString("es-CO")}`;
 
 		const divServicio = document.createElement("DIV");
 		divServicio.classList.add("servicio");
@@ -185,7 +185,7 @@ function mostrarResumen() {
 		divPaso3.childNodes[0].remove();
 	}
 	// console.log(cita);
-
+    let valorTotal = 0;
 	const { nombre, fecha, hora, servicios } = cita;
 	if (Object.values(cita).includes("") || cita.servicios.length == 0) {
 		sendAlert("error", "Falta ingresar información", "#paso-3", false);
@@ -223,7 +223,7 @@ function mostrarResumen() {
 	divDatosPersonales.appendChild(pNombre);
 	divDatosPersonales.appendChild(pFecha);
 	divDatosPersonales.appendChild(pHora);
-	divDatosPersonales.appendChild(botonResumen);
+    
 
 	// Heading servicios en resumen
 	const headingServicios = document.createElement("H3");
@@ -232,18 +232,23 @@ function mostrarResumen() {
 
 	// Iterando y renderizando los servicios
 	servicios.forEach((servicio) => {
-		const { id, nombre, precio } = servicio;
+        const { id, nombre, precio } = servicio;
 		const divServicio = document.createElement("DIV");
 		divServicio.classList.add("contenedor-servicio");
 		const pNombreServicio = document.createElement("P");
 		pNombreServicio.textContent = nombre;
 		const pPrecioServicio = document.createElement("P");
-		pPrecioServicio.innerHTML = `<span>Precio: </span>${precio}`;
-
+		pPrecioServicio.innerHTML = `<span>Precio: </span>$${parseInt(precio).toLocaleString("es-CO")}`;
+        
 		divServicio.appendChild(pNombreServicio);
 		divServicio.appendChild(pPrecioServicio);
+        valorTotal += parseInt(precio);
 		divPaso3.appendChild(divServicio);
 	});
+    const pTotal = document.createElement("P");
+	pTotal.innerHTML = `<span>Total:</span> <b>$${parseInt(valorTotal).toLocaleString("es-CO")}</b>`;
+	divDatosPersonales.appendChild(pTotal);
+	divDatosPersonales.appendChild(botonResumen);
 	divPaso3.append(divDatosPersonales);
 }
 
