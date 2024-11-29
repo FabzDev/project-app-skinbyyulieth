@@ -47,11 +47,11 @@ include_once __DIR__ . "/../templates/barra.php"
             } //Fin del if
             $total += $cita->precio;
                 ?>
-                <p class="servicio"><?php echo $cita->servicio . " - $" . $cita->precio; ?></p>
+                <p class="servicio"><?php echo $cita->servicio; ?> - <span>$<?php echo number_format($cita->precio, 0, '', '.'); ?></span></p>
                 <?php
                 if ($cita->id != $citas[$key + 1]->id) {
                 ?>
-                    <p class="total">Total: <span>$<?php echo $total; ?></span></p>
+                    <p class="total">Total: <span>$<?php echo number_format($total, 0, '', '.'); ?></span></p>
                     
                     <form action="/api/eliminar" method="POST">
                         <input type="hidden" name="id" value="<?php echo $cita->id ?>" />

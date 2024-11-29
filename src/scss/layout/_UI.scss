@@ -24,8 +24,9 @@
     margin: 1rem auto;
     padding: 1rem 0;
     @include m.tablet{
-        overflow: scroll;
-        overflow-x: hidden
+        overflow: auto;
+        overflow-x: hidden;
+        scrollbar-gutter: stable;
     }
 }
 

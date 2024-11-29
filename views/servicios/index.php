@@ -11,7 +11,7 @@ include_once __DIR__ . "/../templates/barra.php"
     ?>
         <li>
             <p>Nombre: <span><?php echo $servicio->nombre; ?></span></p>
-            <p>Precio: <span>$<?php echo $servicio->precio; ?></span></p>
+            <p>Precio: <span>$<?php echo number_format($servicio->precio, 0, '', '.'); ?></span></p>
             
             <div class="acciones">
                 <a class="boton" href="/servicios/actualizar?id=<?php echo $servicio->id; ?>">Actualizar</a>

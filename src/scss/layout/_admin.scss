@@ -16,6 +16,10 @@
 		.servicio {
 			font-weight: v.$regular;
 			color: v.$blanco;
+            span{
+                font-weight: bold;
+                font-size: x-large;
+            }
 		}
 	}
 }
@@ -26,5 +30,12 @@
     .boton,
     .boton-eliminar{
         margin: 0;
+    }
+}
+
+.total {
+    span {
+        font-weight: bold !important;
+        font-size: xx-large;
     }
 }
