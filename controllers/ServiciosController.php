@@ -10,8 +10,8 @@ class ServiciosController
     public static function index(Router $router)
     {
         session_start();
-        $nombre = $_SESSION['nombreCompleto'];
         isAdmin();
+        $nombre = $_SESSION['nombreCompleto'];
 
         $servicios = Servicio::all();
         // debuguear($servicios);
@@ -38,6 +38,8 @@ class ServiciosController
             if (empty($alertas)) {
                 $servicio->guardar();
             }
+
+            header('Location: /servicios');
         }
 
         $router->render('servicios/crear', [
