@@ -1,6 +1,11 @@
 <?php
 
-$db = mysqli_connect('localhost', 'root', 'faeavf44', 'skin_by_yulieth');
+$db = mysqli_connect(
+    $_ENV['DB_HOST'],
+    $_ENV['DB_ROOT'],
+    $_ENV['DB_PASS'],
+    $_ENV['DB_NAME']
+);
 
 
 if (!$db) {
