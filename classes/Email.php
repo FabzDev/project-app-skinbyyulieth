@@ -18,11 +18,11 @@ use PHPMailer\PHPMailer\PHPMailer;
             //crear objeto correo
             $correo = new PHPMailer();
             $correo->isSMTP();
-            $correo->Host = 'sandbox.smtp.mailtrap.io';
+            $correo->Host = $_ENV['EMAIL_HOST'];
             $correo->SMTPAuth = true;
-            $correo->Port = 2525;
-            $correo->Username = '0916c80e86e91c';
-            $correo->Password = 'db47cdee41adcd';
+            $correo->Port = $_ENV['EMAIL_PORT'];
+            $correo->Username = $_ENV['EMAIL_USER'];
+            $correo->Password = $_ENV['EMAIL_PASS'];
             
             $correo->setFrom('notificaciones@skinbyyulieth.com');
             $correo->addAddress('fabioescobarardila@hotmail.com');
@@ -47,11 +47,11 @@ use PHPMailer\PHPMailer\PHPMailer;
         public function enviarInstrucciones(){
             $correo = new PHPMailer();
             $correo->isSMTP();
-            $correo->Host = 'sandbox.smtp.mailtrap.io';
+            $correo->Host = $_ENV['EMAIL_HOST'];
             $correo->SMTPAuth = true;
-            $correo->Port = 2525;
-            $correo->Username = '0916c80e86e91c';
-            $correo->Password = 'db47cdee41adcd';
+            $correo->Port = $_ENV['EMAIL_PORT'];
+            $correo->Username = $_ENV['EMAIL_USER'];
+            $correo->Password = $_ENV['EMAIL_PASS'];
             
             $correo->setFrom('notificaciones@skinbyyulieth.com');
             $correo->addAddress('fabioescobarardila@hotmail.com');
@@ -63,7 +63,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
             $contenido = "<html>";
             $contenido .= "<p>Hola <strong>".$this->nombre."</strong>. Para restablecer tu Password has click en el siguiente enlace:</p>";
-            $contenido .= "<p><a href='http://localhost:3000/recuperar?token=".$this->token."'>Restablecer Password</a><p>";
+            $contenido .= "<p><a href='". $_ENV['APP_URL'] ."/recuperar?token=".$this->token."'>Restablecer Password</a><p>";
             $contenido .= "<p?>Si tu no creaste esta por favor ignora este mensaje</p>";
             $contenido .= "</html>";
             
