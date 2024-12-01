@@ -7,7 +7,6 @@
   "type": "module",
   "scripts": {
     "gulp": "gulp",
-    "build": "gulp build"
   },
   "license": "ISC",
   "devDependencies": {

@@ -74,4 +74,3 @@ export function dev() {
 }
 
 export default series( js, css, imagenes, dev )
-export const build = series( js, css, imagenes )
