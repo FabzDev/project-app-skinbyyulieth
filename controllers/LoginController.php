@@ -82,7 +82,7 @@ class LoginController
         }
 
         $inst2Router->render('auth/olvide-password', [
-            'alerts' => $alertas
+            'alertas' => $alertas
         ]);
     }
 
@@ -110,7 +110,7 @@ class LoginController
         }
 
         $router->render('auth/recuperar', [
-            'alerts' => $alertas,
+            'alertas' => $alertas,
             'error' => $error
         ]);
     }
@@ -149,7 +149,7 @@ class LoginController
 
         $inst3Router->render('auth/crear-cuenta', [
             'user' => $usuario,
-            'alerts' => $alertas
+            'alertas' => $alertas
         ]);
     }
 
@@ -174,7 +174,7 @@ class LoginController
         }
         $alertas = Usuario::getAlertas();
         $router->render('auth/confirmar-cuenta', [
-            'alerts' => $alertas
+            'alertas' => $alertas
         ]);
     }
 }
