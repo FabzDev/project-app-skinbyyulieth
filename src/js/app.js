@@ -93,7 +93,7 @@ function tabs() {
 
 async function consultarServiciosAPI() {
 	try {
-		const url = "http://localhost:3000/api/servicios";
+		const url = "/api/servicios";
 		let resultado = await fetch(url);
 		let servicios = await resultado.json();
 		mostrarServicios(servicios);
@@ -268,7 +268,7 @@ async function reservarCita() {
 
 	try {
 		// Enviando el obj formData en el body de la peticion post a api/citas
-		const urlCitas = "http://localhost:3000/api/citas";
+		const urlCitas = "/api/citas";
 		const respCita = await fetch(urlCitas, {
 			method: "POST",
 			body: formData,

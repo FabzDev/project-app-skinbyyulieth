@@ -6,7 +6,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "gulp": "gulp"
+    "gulp": "gulp",
+    "build": "gulp build"
   },
   "license": "ISC",
   "devDependencies": {

@@ -34,7 +34,7 @@ use PHPMailer\PHPMailer\PHPMailer;
 
             $contenido = "<html>";
             $contenido .= "<p><strong>Hola ".$this->nombre."</strong>. Has creado tu cuenta en SkinByYulieth, para confirmar tu cuenta ingresa al siguiente enlace</p>";
-            $contenido .= "<p>Presiona aqui: <a href='http://localhost:3000/confirmar-cuenta?token=".$this->token."'>Confirmar cuenta</a><p>";
+            $contenido .= "<p>Presiona aqui: <a href='". $_ENV['APP_URL'] ."/confirmar-cuenta?token=".$this->token."'>Confirmar cuenta</a><p>";
             $contenido .= "<p?>Si tu no creaste esta por favor ignora este mensaje</p>";
             $contenido .= "</html>";
             
