@@ -21,15 +21,15 @@ class Router
     {
         
         // Proteger Rutas...
-        // session_start();
+        session_start();
 
         // Arreglo de rutas protegidas...
         // $rutas_protegidas = ['/admin', '/propiedades/crear', '/propiedades/actualizar', '/propiedades/eliminar', '/vendedores/crear', '/vendedores/actualizar', '/vendedores/eliminar'];
 
         // $auth = $_SESSION['login'] ?? null;
 
-        // $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
-        $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
+        // $currentUrl = $_SERVER['PATH_INFO'] ?? '/';
+        $currentUrl = strtok($_SERVER['REQUEST_URI'], '?') ?? '/';
         $method = $_SERVER['REQUEST_METHOD'];
 
         if ($method === 'GET') {

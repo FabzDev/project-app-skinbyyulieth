@@ -94,12 +94,7 @@ function tabs() {
 async function consultarServiciosAPI() {
 	try {
 		const url = "/api/servicios";
-		let resultado = await fetch(url, {
-			method: "GET",
-			headers: {
-				"Content-Type": "application/json", // Cambiar Content-Type
-			}
-		});
+		let resultado = await fetch(url);
 		let servicios = await resultado.json();
 		mostrarServicios(servicios);
 	} catch (error) {
