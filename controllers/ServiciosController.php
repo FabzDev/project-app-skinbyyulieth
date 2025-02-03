@@ -9,7 +9,6 @@ class ServiciosController
 {
     public static function index(Router $router)
     {
-        session_start();
         isAdmin();
         $nombre = $_SESSION['nombreCompleto'];
 
@@ -23,7 +22,6 @@ class ServiciosController
 
     public static function crear(Router $router)
     {
-        session_start();
         isAdmin();
 
         $nombre = $_SESSION['nombreCompleto'];
@@ -51,9 +49,11 @@ class ServiciosController
 
     public static function actualizar(Router $router)
     {
-        session_start();
         isAdmin();
         $nombre = $_SESSION['nombreCompleto'];
+
+        $servicio = new Servicio;
+        $alertas = [];
 
         $id = $_GET['id'];
         if (!is_numeric($id)) return;
@@ -69,7 +69,6 @@ class ServiciosController
             }
         }
 
-        // debuguear($servicio);
         $router->render('servicios/actualizar', [
             'servicio' => $servicio,
             'alertas' => $alertas,
@@ -79,7 +78,6 @@ class ServiciosController
 
     public static function eliminar(Router $router)
     {
-        session_start();
         isAdmin();
 
         $id = $_POST['id'];

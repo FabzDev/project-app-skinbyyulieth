@@ -49,7 +49,8 @@ include_once __DIR__ . "/../templates/barra.php"
                 ?>
                 <p class="servicio"><?php echo $cita->servicio; ?> - <span>$<?php echo number_format($cita->precio, 0, '', '.'); ?></span></p>
                 <?php
-                if ($cita->id != $citas[$key + 1]->id) {
+                // debuguear($citas);
+                if (!isset($citas[$key + 1]->id) || $cita->id != $citas[$key + 1]->id) {
                 ?>
                     <p class="total">Total: <span>$<?php echo number_format($total, 0, '', '.'); ?></span></p>
                     

@@ -10,9 +10,9 @@ class LoginController
 {
     public static function login(Router $inst1Router)
     {
+        $auth = new Usuario;
+        $alertas = [];
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            $auth = new Usuario;
-            $alertas = [];
             $auth->sincronizar($_POST);
             if (!$auth->email) {
                 $alertas['error'][] = 'Ingresa tu Email para iniciar sesión';
@@ -30,7 +30,6 @@ class LoginController
                         $_SESSION['nombreCompleto'] = $usuario->nombre . " " . $usuario->apellido;
                         $_SESSION['email'] = $usuario->email;
                         $_SESSION['login'] = true;
-
                         //Redireccionamiento
                         if ($usuario->admin) {
                             $_SESSION['admin'] = true;
@@ -54,7 +53,6 @@ class LoginController
     }
 
     public static function logout() {
-        session_start();
         $_SESSION = [];
         header('Location: /');
     }
