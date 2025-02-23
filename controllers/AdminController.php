@@ -30,7 +30,7 @@ class AdminController
         $consulta .= " ON citas_servicios.serviciosId=servicios.id";
         $consulta .= " WHERE fecha='".$fechaSel."';";
 
-        debuguear($consulta);
+        // debuguear($consulta);
 
         $resultado = AdminCita::SQL($consulta);
         
