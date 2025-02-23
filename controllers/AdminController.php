@@ -25,10 +25,10 @@ class AdminController
         $consulta .= ' LEFT OUTER JOIN citas_servicios';
         $consulta .= ' ON citas.id=citas_servicios.citasId';
         $consulta .= ' LEFT OUTER JOIN servicios';
-        // $consulta .= ' ON citas_servicios.serviciosId=servicios.id;';
-
-        $consulta .= ' ON citas_servicios.serviciosId=servicios.id';
-        $consulta .= ' WHERE fecha="'.$fechaSel.'";';
+        
+        $consulta .= ' ON citas_servicios.serviciosId=servicios.id;';
+        // $consulta .= ' ON citas_servicios.serviciosId=servicios.id';
+        // $consulta .= ' WHERE fecha="'.$fechaSel.'";';
 
         // debuguear($consulta);
 
