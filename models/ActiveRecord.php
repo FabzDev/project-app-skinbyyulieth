@@ -41,6 +41,7 @@ class ActiveRecord
     {
         // Consultar la base de datos
         $resultado = self::$db->query($query);
+        // debuggear($query);
 
         // Iterar los resultados
         $array = [];
