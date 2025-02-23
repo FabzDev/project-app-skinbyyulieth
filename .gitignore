@@ -1,4 +1,4 @@
-node_modules
-vendor
-.vscode
-includes/.env
+/vendor/
+/node_modules/
+/src/
+.env
