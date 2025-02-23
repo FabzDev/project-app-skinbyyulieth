@@ -25,7 +25,7 @@ class LoginController
                 if ($usuario) {
                     if ($usuario->validarPasswordAndVerificado($auth->password)) {
                         //Autenticar el usuario
-                        session_start();
+                        // session_start(); inutil
                         $_SESSION['id'] = $usuario->id;
                         $_SESSION['nombreCompleto'] = $usuario->nombre . " " . $usuario->apellido;
                         $_SESSION['email'] = $usuario->email;
